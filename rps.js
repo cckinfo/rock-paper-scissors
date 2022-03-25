@@ -33,38 +33,16 @@ function playRound(playerChoice, computerChoice) {
   else return 2;
 }
 
-function game() {
-  let playerScore = 0;
-  let compScore = 0;
-  
-  for (let i = 0; i < 5; i++) {
-    let playerChoice = convertInputToMove(prompt("Pick one of rock, paper or scissors.").toLowerCase());
-    let computerChoice = computerPlay();
-    if (playerChoice === undefined) {
-      console.log("Invalid input.");
-      return;
-    }
-    let result = playRound(playerChoice, computerChoice);
-    if (result == 0) {
-      console.log("Tie.");
-      playerScore++;
-      compScore++;
-    } else if (result == 1) {
-      console.log("You win!");
-      playerScore++;
-    } else {
-      console.log("You lose!");
-      compScore++;
-    }
-  }
-  if (playerScore > compScore) {
-    console.log("Congratulations, you won!");
-  } else if (playerScore < compScore) {
-    console.log("Unfortunately you lost.");
-  } else {
-    console.log("Looks like it's a tie...")
-  }
+const buttons = document.querySelectorAll('button');
 
-}
-
-game();
+buttons.forEach(button => {
+  button.addEventListener('click', () => {
+    if (button.id === "rock") {
+      playRound(1, computerPlay());
+    } else if (button.id === "scissors") {
+      playRound(2, computerPlay());
+    } else if (button.id === "scissors") {
+      playRound(3, computerPlay());
+    }
+  })
+});
