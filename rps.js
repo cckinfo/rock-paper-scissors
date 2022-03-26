@@ -1,48 +1,67 @@
-// 1 = Rock, 2 = Scissors, 3 = Paper
+const playButtons = document.querySelectorAll('div.playButtons button');
+const playerPoints = document.querySelector('#playerScore');
+const computerPoints = document.querySelector('#computerScore');
+const results = document.querySelector('#results');
+const reload = document.querySelector('#reload');
+
+reload.addEventListener('click', () => location.reload());
+
+playButtons.forEach(button => {button.addEventListener('click', getPlayerChoice )});
+
+let playerScore = 0;
+let compScore = 0;
+let playerChoice;
+
+const winnerResults ={
+  computer: ["Lost... to a computer.", 'red'],
+  player: ["Congratulations.", 'green'],
+  tie: ["Tie. Not bad but you can do better.", 'blue']
+}
 
 function computerPlay() {
-  return Math.floor(Math.random() * 3) + 1;
+  return Math.floor(Math.random() * 3);
 }
 
-function convertInputToMove(input) {
-  let choice;
-  switch (input) {
-    case "rock":
-      choice = 1;
-      break;
-    case "scissors":
-      choice = 2;
-      break;
-    case "paper":
-      choice = 3;
+function getPlayerChoice(e) {
+  let playerNumber = (e.target.id);
+  playerChoice = e.target.textContent;
+  playRound(playerNumber, computerPlay());
+}
+
+function playRound(playerNumber, computerNumber) {
+  let roundSelections = `${playerNumber}-${computerNumber}`;
+  let winningCombination = ['1-0', 'o-2', '2-1'];
+
+  if (Number(playerNumber) === computerNumber) {
+    playerPoints.textContent = ++playerScore;
+    computerPoints.textContent = ++compScore;
+    results.textContent = "A tie... everyone wins!";
+  } else if (winningCombination.includes(roundSelections)) {
+    playerPoints.textContent = ++playerScore;
+    results.textContent = `Wise choice - the ${playerChoice} brought you victory.`;
+  } else {
+    computerPoints.textContent = ++compScore;
+    results.textContent = `Wrong choice.`;
   }
-  return choice;
+  checkWinner();
 }
 
-function didYouWin(playerChoice, computerChoice) {
-  if (playerChoice === computerChoice) return 0;
-  else if (playerChoice === 1 && computerChoice === 2) return true;
-  else if (playerChoice === 2 && computerChoice === 3) return true;
-  else if (playerChoice === 3 && computerChoice === 1) return true;
-  else return false;
-}
-
-function playRound(playerChoice, computerChoice) {
-  if (didYouWin(playerChoice, computerChoice) === 0) return 0;
-  else if (didYouWin(playerChoice, computerChoice)) return 1;
-  else return 2;
-}
-
-const buttons = document.querySelectorAll('button');
-
-buttons.forEach(button => {
-  button.addEventListener('click', () => {
-    if (button.id === "rock") {
-      playRound(1, computerPlay());
-    } else if (button.id === "scissors") {
-      playRound(2, computerPlay());
-    } else if (button.id === "scissors") {
-      playRound(3, computerPlay());
+function checkWinner() {
+  if (compScore === 5 || playerScore === 5) {
+    if (compScore === playerScore) {
+      updateWinner('tie')
+    }else {
+      let winner = `${(compScore > playerScore) ? 'computer' : 'player'}`;
+      updateWinner(winner);
     }
-  })
-});
+  }
+}
+
+function updateWinner(winner){
+  results.textContent = winnerResults[winner][0];
+  results.style.color = winnerResults[winner][1];
+
+  playButtons.forEach(button => {
+    button.removeEventListener('click', getPlayerChoice);
+  });
+}

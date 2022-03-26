@@ -1,19 +1,36 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Page Title</title>
+  <title>Rock Paper Scissors by cckinfo</title>
   <meta charset="UTF-8">
 </head>
 <body>
-  <script src="rps.js" defer></script>
   <div>
-
-
+    <h1>Rock Paper Scissors</h5>
+    <h3>Can you beat the computer?</h3>
   </div>
   <div>
-    <button id="rock">Rock!</button>
-    <button id="scissors">Scissors!</button>
-    <button id="paper">Paper!</button>
+    <span id="player">Player Score</span> 
+    <span id="computer">Computer Score</span>
   </div>
+  <div>
+    <div id="playerScore"></div>
+    <div id="computerScore"></div>
+  </div>
+  <br>
+  <div class="playButtons">
+    <button id="0">Rock</button>
+    <button id="1">Paper</button>
+    <button id="2">Scissors</button>
+  </div>
+  <br>
+  <div><span id="resultsLabel">Results</span></div>
+  <div id="results"></div>
+  <br>
+  <div>
+    <button id="reload">Play again</button>
+  </div>
+
 </body>
+<script src="rps.js" defer></script>
 </html>
